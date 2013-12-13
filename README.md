@@ -3,21 +3,21 @@
 
 #Help
 
-`./client.py -h
-usage: client.py [-h] [-m {GET,POST,DELETE}] -e {artist,genre} [-i ID]
-                 [-o OBJECT]
+	./client.py -h
+	usage: client.py [-h] [-m {GET,POST,DELETE}] -e {artist,genre} [-i ID]
+        	         [-o OBJECT]
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -m {GET,POST,DELETE}, --method {GET,POST,DELETE}
-                        Type of HTTP request
-  -e {artist,genre}, --entity {artist,genre}
-                        Database entity
-  -i ID, --identifier ID
-                        Identifier of the entity (song artist's name, name of
-                        genre)
-  -o OBJECT, --object OBJECT
-                        JSON object with object data`
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  -m {GET,POST,DELETE}, --method {GET,POST,DELETE}
+	                        Type of HTTP request
+	  -e {artist,genre}, --entity {artist,genre}
+	                        Database entity
+	  -i ID, --identifier ID
+	                        Identifier of the entity (song artist's name, name of
+	                        genre)
+	  -o OBJECT, --object OBJECT
+	                        JSON object with object data`
 
 
 #Examples
