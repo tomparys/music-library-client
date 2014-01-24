@@ -5,6 +5,7 @@ import argparse
 import urllib
 import urllib2
 import json
+import base64
 
 REST_URL = "http://localhost:8080/pa165/rest/"
 
@@ -19,6 +20,8 @@ if __name__ == "__main__":
 				help="Identifier of the entity (song artist's name, name of genre)")
 	parser.add_argument('-o', '--object', dest='object',
 				help = "JSON object with object data")
+	parser.add_argument('-u', '--username', default='admin', dest='username', help="Username (default: admin)")
+	parser.add_argument('-p', '--password', dest='password', help="Password")
 	args = parser.parse_args()
 
 	# Set up REST URL
@@ -61,10 +64,18 @@ if __name__ == "__main__":
 
 			# Send HTTP POST to the prepared URL
 			request = urllib2.Request(url, jdata, {'Content-Type': 'application/json'})
+
+			# Authorization
+			if (args.password):
+				base64string = base64.encodestring('%s:%s' % (args.username, args.password)).replace('\n', '')
+				request.add_header("Authorization", "Basic %s" % base64string)
+
 			response = urllib2.urlopen(request)
 		except urllib2.HTTPError as e:
 			if e.code == 404:
 				print "Resource not found!"
+			elif e.code == 500:
+				print "Internal error. Do you have sufficient authorisation for this operation?"
 			else:
 				print e
 			sys.exit(1)
@@ -95,11 +106,18 @@ if __name__ == "__main__":
 		request.add_header('Content-Type', 'application/json')
 		request.get_method = lambda: 'DELETE'
 
+		# Authorization
+		if (args.password):
+			base64string = base64.encodestring('%s:%s' % (args.username, args.password)).replace('\n', '')
+			request.add_header("Authorization", "Basic %s" % base64string)
+
 		try:
 			response = opener.open(request)
 		except urllib2.HTTPError as e:
 			if e.code == 404:
 				print "Resource not found!"
+			elif e.code == 500:
+				print "Internal error. Do you have sufficient authorisation for this operation?"
 			else:
 				print e
 			sys.exit(1)
